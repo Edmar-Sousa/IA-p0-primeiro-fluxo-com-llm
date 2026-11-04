@@ -3,47 +3,29 @@ import os
 from attendant import Attendant
 from dotenv import load_dotenv
 
-
-def answer_to_client(answer: dict):
-    print('~~' * 20)
-    print(f'{"RESPOSTA PARA O CLIENTE":^40}')
-    print('~~' * 20)
-
-    print(f'>>> {answer["suggested_answer"]}')
-    print('~~' * 20)
-
-
-def answer_to_store(answer: dict):
-    print('~~' * 20)
-    print(f'{"RESPOSTA PARA A LOJA":^40}')
-    print('~~' * 20)
-    
-    print(f' - tipo: {answer["category"]}')
-    print(f' - resumo: {answer["summary"]}')
-    print(f' - prioridade: {answer["priority"]}')
-    print('~~' * 20)
+from utils import print_header, answer_to_client, answer_to_store
 
 
 def idle():
     attendant = Attendant()
 
-    print('~~' * 20)
-    print(f'{"BEM VINDO":^40}')
-    print('~~' * 20)
-    print('<<< Sou seu assistente virtual de atendimento ao cliente...\nPressione CTRL + C para sair')
+    print_header('BEM VINDO')
+    print('<<< Sou seu assistente virtual de atendimento ao cliente...\nPressione CTRL + C para sair\n')
 
     while True:
         print('<<< Como posso ajuda-lo?')
         question = input('>>> ')
 
-        try:
-            answer = attendant.process_question(question)
+        answer = attendant.process_question(question)
+        print(answer)
 
-            answer_to_client(answer)
-            answer_to_store(answer)
+        # try:
 
-        except:
-            break
+        #     # answer_to_client(answer)
+        #     # answer_to_store(answer)
+
+        # except:
+        #     break
 
 
 
