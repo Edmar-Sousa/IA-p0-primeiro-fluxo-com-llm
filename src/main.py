@@ -4,6 +4,26 @@ from attendant import Attendant
 from dotenv import load_dotenv
 
 
+def answer_to_client(answer: dict):
+    print('~~' * 20)
+    print(f'{"RESPOSTA PARA O CLIENTE":^40}')
+    print('~~' * 20)
+
+    print(f'>>> {answer["suggested_answer"]}')
+    print('~~' * 20)
+
+
+def answer_to_store(answer: dict):
+    print('~~' * 20)
+    print(f'{"RESPOSTA PARA A LOJA":^40}')
+    print('~~' * 20)
+    
+    print(f' - tipo: {answer["category"]}')
+    print(f' - resumo: {answer["summary"]}')
+    print(f' - prioridade: {answer["priority"]}')
+    print('~~' * 20)
+
+
 def idle():
     attendant = Attendant()
 
@@ -16,21 +36,14 @@ def idle():
         print('<<< Como posso ajuda-lo?')
         question = input('>>> ')
 
-        answer = attendant.process_question(question)
+        try:
+            answer = attendant.process_question(question)
 
-        print('~~' * 20)
-        print(f'{"RESPOSTA PARA O CLIENTE":^40}')
-        print('~~' * 20)
-        print(f'>>> {answer["suggested_answer"]}')
-        print('~~' * 20)
+            answer_to_client(answer)
+            answer_to_store(answer)
 
-        print('~~' * 20)
-        print(f'{"RESPOSTA PARA A LOJA":^40}')
-        print('~~' * 20)
-        print(f' - tipo: {answer["category"]}')
-        print(f' - resumo: {answer["summary"]}')
-        print(f' - prioridade: {answer["priority"]}')
-        print('~~' * 20)
+        except:
+            break
 
 
 
