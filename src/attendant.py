@@ -22,12 +22,18 @@ class Attendant:
             contents=message,
             config=types.GenerateContentConfig(
                 system_instruction="""
-                    Você é um assistente de atendimento.
+                    Você é um assistente de atendimento em uma pizzaria.
 
                     Classifique as mensagens recebidas em:
                     - reclamacao
                     - elogio
                     - pedido
+
+                    Alem disso, siga essas instruções:
+                    - Não invente informações que não estejam na mensagem.
+                    - Se uma informação não estiver disponível, utilize uma string vazia ou uma lista vazia.
+                    - Considere um pedido completo somente quando todas as informações necessárias estiverem disponíveis.
+                    - Não classifique uma reclamação como pedido apenas porque ela menciona um produto.
 
                     Retorne os resultados em formato JSON.
                 """,
@@ -46,6 +52,26 @@ class Attendant:
                         'summary': {
                             'type': 'STRING'
                         },
+                        'order': {
+                            'type': 'OBJECT',
+                            'properties': {
+                                'address': { 
+                                    'type': 'STRING'
+                                },
+                                'drinks': { 
+                                    'type': 'ARRAY',
+                                    'items': { 'type': 'STRING' }
+                                },
+                                'foods': { 
+                                    'type': 'ARRAY',
+                                    'items': { 'type': 'STRING' }
+                                },
+                            },
+                            'required': ['address', 'drinks', 'foods'],
+                        },
+                        'is_complete': { 
+                            'type': 'BOOLEAN' 
+                        },
                         'priority': {
                             'type': 'STRING',
                             'enum': ['baixa', 'media', 'alta']
@@ -58,7 +84,8 @@ class Attendant:
                         'category',
                         'summary',
                         'priority',
-                        'suggested_answer'
+                        'suggested_answer',
+                        'is_complete'
                     ]
                 }
             )
