@@ -1,2 +1,4 @@
 .env
 llm-env
+
+__pycache__
