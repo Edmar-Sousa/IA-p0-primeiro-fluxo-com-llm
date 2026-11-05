@@ -5,6 +5,27 @@ def print_header(title: str):
     print()
 
 
+def print_order(order: dict):
+    print_header('RESPOSTA PARA A LOJA')
+
+    print(f' - Tipo: {order["category"]}')
+    print(f' - Resumo: {order["summary"]}')
+    print(f' - Prioridade: {order["priority"]}')
+    print(f' - Endereço: {order['order']['address']}')
+    print(' - Pedido:')
+
+    print('--' * 30)
+    for i, food in enumerate(order['order']['foods']):
+        print(f'\t{i + 1}. {food}')
+    print('--' * 30)
+
+    for i, drinks in enumerate(order['order']['drinks']):
+        print(f'\t{i + 1}. {drinks}')
+
+    print('--' * 30)
+    
+
+
 def answer_to_client(answer: dict):
     print_header('RESPOSTA PARA O CLIENTE')
     print(f'>>> {answer["suggested_answer"]}')
@@ -17,4 +38,4 @@ def answer_to_store(answer: dict):
     print(f' - tipo: {answer["category"]}')
     print(f' - resumo: {answer["summary"]}')
     print(f' - prioridade: {answer["priority"]}')
-    print('~~' * 20)
+    print('~~' * 30)

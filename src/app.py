@@ -1,5 +1,5 @@
 from attendant import Attendant
-from utils import print_header
+from utils import print_header, print_order, answer_to_client, answer_to_store
 
 
 class App:
@@ -33,6 +33,12 @@ class App:
             answer = self.__attendant.process_question(question)
             self.__history_questions.append(question)
             
-            if answer['category'] == 'pedido' and not answer['is_complete']:
+            if answer['category'] == 'pedido':
                 order = self.__complete_order__(answer)
-                print(order)
+                print_order(order)
+            
+            elif answer['category'] == 'elogio':
+                answer_to_store(answer)
+            
+            else:
+                answer_to_client(answer)
