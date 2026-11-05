@@ -11,7 +11,7 @@ def print_order(order: dict):
     print(f' - Tipo: {order["category"]}')
     print(f' - Resumo: {order["summary"]}')
     print(f' - Prioridade: {order["priority"]}')
-    print(f' - Endereço: {order['order']['address']}')
+    print(f' - Endereço: {order['order']['address']}\n')
     print(' - Pedido:')
 
     print('--' * 30)
