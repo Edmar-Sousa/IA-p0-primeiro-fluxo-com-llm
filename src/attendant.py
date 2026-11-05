@@ -45,6 +45,7 @@ class Attendant:
 
 
     def process_question(self, message: str, history_questions: list = []):
+
         response = self._client.models.generate_content(
             model='gemini-3.1-flash-lite',
             contents=message,

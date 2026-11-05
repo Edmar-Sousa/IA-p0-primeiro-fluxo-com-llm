@@ -12,12 +12,12 @@ class App:
     def __complete_order__(self, answer: dict):
         order = answer.copy()
 
-        while order['is_complete']:
+        while not order['is_complete']:
             print(f'<<< {order['suggested_answer']}')
 
             question = input('>>> ')
             self.__history_questions.append(question)
-            order = self.__attendant.process_question(question, self.__history_question)
+            order = self.__attendant.process_question(question, self.__history_questions)
 
         return order
     
