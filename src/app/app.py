@@ -42,12 +42,16 @@ class App:
 
 
     def __get_user_input__(self):
-        question = input('>>> ').strip()
+        try:
+            question = input('>>> ').strip()
 
-        if len(question) == 0:
-            raise AppInputError('Envie uma mensagem valida! Tente novamente!')
+            if len(question) == 0:
+                raise AppInputError('Envie uma mensagem valida! Tente novamente!')
 
-        return question
+            return question
+        
+        except KeyboardInterrupt:
+            raise AppInputError('\nTchau! Até mais!')
 
 
     def process_user_message(self):
@@ -60,10 +64,6 @@ class App:
             try:
                 question = self.__get_user_input__()
                 self.__ask_to_llm__(question)
-
-            except KeyboardInterrupt:
-                print("\nTchau! Até mais!")
-                break
 
             except AppException as e:
                 print(e)
