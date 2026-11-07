@@ -7,7 +7,7 @@ from google.genai.types import HttpOptions
 
 
 
-class Attendant:
+class Gemini:
 
     def __init__(self):
         self._client = genai.Client(
