@@ -1,5 +1,7 @@
 from google.genai.errors import APIError
 
+
+from exception import AppException, AppInputError
 from attendant import Attendant
 from utils import print_header, print_order, answer_to_client, answer_to_store
 
@@ -39,6 +41,15 @@ class App:
             answer_to_client(answer)
 
 
+    def __get_user_input__(self):
+        question = input('>>> ')
+
+        if len(question) == 0:
+            raise AppInputError('Envie uma mensagem valida! Tente novamente!')
+
+        return question
+
+
     def process_user_message(self):
         print_header('BEM VINDO')
         print('<<< Sou seu assistente virtual de atendimento ao cliente...\nPressione CTRL + C para sair\n')
@@ -47,12 +58,15 @@ class App:
             print('<<< Como posso ajuda-lo?')
 
             try:
-                question = input('>>> ')
+                question = self.__get_user_input__()
                 self.__ask_to_llm__(question)
 
             except KeyboardInterrupt:
                 print("\nTchau! Até mais!")
                 break
+
+            except AppException as e:
+                print(e)
 
             except APIError as e:
                 print(
