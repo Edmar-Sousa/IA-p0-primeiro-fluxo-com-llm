@@ -2,8 +2,8 @@ import pytest
 
 from unittest.mock import patch
 
-from src.app import App
-from src.exception import AppInputError
+from src.app.app import App
+from src.app.exception import AppInputError
 
 
 def test_app_with_message_empty():
