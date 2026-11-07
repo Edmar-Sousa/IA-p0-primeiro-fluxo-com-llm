@@ -25,6 +25,7 @@ def test_app_with_message_spaces():
 
         assert str(err.value) == 'Envie uma mensagem valida! Tente novamente!'
 
+
 def test_app_with_valid_message():
     with patch('builtins.input', return_value='Quero uma pizza!'):
         app = App('mock')
