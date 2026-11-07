@@ -1,9 +1,9 @@
 from google.genai.errors import APIError
 
 
-from exception import AppException, AppInputError
-from llmfactory import LLMFactory
-from utils import print_header, print_order, answer_to_client, answer_to_store
+from .exception import AppException, AppInputError
+from .llmfactory import LLMFactory
+from .utils import print_header, print_order, answer_to_client, answer_to_store
 
 
 class App:
@@ -42,7 +42,7 @@ class App:
 
 
     def __get_user_input__(self):
-        question = input('>>> ')
+        question = input('>>> ').strip()
 
         if len(question) == 0:
             raise AppInputError('Envie uma mensagem valida! Tente novamente!')
