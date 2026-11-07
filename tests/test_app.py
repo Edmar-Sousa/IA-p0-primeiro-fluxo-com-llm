@@ -15,3 +15,12 @@ def test_app_with_message_empty():
 
         assert str(err.value) == 'Envie uma mensagem valida! Tente novamente!'
     
+
+def test_app_with_message_spaces():
+    with patch('builtins.input', return_value='        '):
+        app = App('mock')
+
+        with pytest.raises(AppInputError) as err:
+            app.__get_user_input__()
+
+        assert str(err.value) == 'Envie uma mensagem valida! Tente novamente!'
