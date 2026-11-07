@@ -67,12 +67,16 @@ class App:
 
             except AppException as e:
                 print(e)
+                break
 
             except APIError as e:
                 print(
                     "Perdoe-nos, mas ocorreu um erro no nosso sistema! "
                     "Tente novamente em alguns instantes."
                 )
+                break
 
             except Exception as e:
                 print("Perdoe-nos, mas ocorreu um erro inesperado!")
+                break
+
