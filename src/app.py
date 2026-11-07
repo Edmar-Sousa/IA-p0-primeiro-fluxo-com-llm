@@ -1,3 +1,5 @@
+from google.genai.errors import APIError
+
 from attendant import Attendant
 from utils import print_header, print_order, answer_to_client, answer_to_store
 
@@ -43,5 +45,20 @@ class App:
 
         while True:
             print('<<< Como posso ajuda-lo?')
-            question = input('>>> ')
-            self.__ask_to_llm__(question)
+
+            try:
+                question = input('>>> ')
+                self.__ask_to_llm__(question)
+
+            except KeyboardInterrupt:
+                print("\nTchau! Até mais!")
+                break
+
+            except APIError as e:
+                print(
+                    "Perdoe-nos, mas ocorreu um erro no nosso sistema! "
+                    "Tente novamente em alguns instantes."
+                )
+
+            except Exception as e:
+                print("Perdoe-nos, mas ocorreu um erro inesperado!")
