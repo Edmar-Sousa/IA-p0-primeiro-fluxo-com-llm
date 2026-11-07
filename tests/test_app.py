@@ -24,3 +24,10 @@ def test_app_with_message_spaces():
             app.__get_user_input__()
 
         assert str(err.value) == 'Envie uma mensagem valida! Tente novamente!'
+
+def test_app_with_valid_message():
+    with patch('builtins.input', return_value='Quero uma pizza!'):
+        app = App('mock')
+        user_input = app.__get_user_input__()
+
+        assert user_input == 'Quero uma pizza!'
