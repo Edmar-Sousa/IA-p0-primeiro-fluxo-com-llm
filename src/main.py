@@ -15,7 +15,7 @@ def main() -> None:
     load_dotenv()
     check_exists_llm_api_key()
 
-    app = App()
+    app = App('gemini')
     app.process_user_message()
 
 

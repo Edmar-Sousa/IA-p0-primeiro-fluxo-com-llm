@@ -2,14 +2,14 @@ from google.genai.errors import APIError
 
 
 from exception import AppException, AppInputError
-from attendant import Attendant
+from llmfactory import LLMFactory
 from utils import print_header, print_order, answer_to_client, answer_to_store
 
 
 class App:
 
-    def __init__(self):
-        self.__attendant = Attendant()
+    def __init__(self, llm: str):
+        self.__attendant = LLMFactory.create(llm)
         self.__history_questions = []
 
 
