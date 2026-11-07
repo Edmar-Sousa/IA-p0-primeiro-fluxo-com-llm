@@ -1,3 +1,6 @@
+import os
+
+
 def print_header(title: str):
     print('~~' * 30)
     print(f'{title:^60}')
@@ -39,3 +42,8 @@ def answer_to_store(answer: dict):
     print(f' - resumo: {answer["summary"]}')
     print(f' - prioridade: {answer["priority"]}')
     print('~~' * 30)
+
+
+def check_exists_llm_api_key():
+    if 'LLM_API_KEY' not in os.environ:
+        raise Exception('LLM_API_KEY not defined in the environment')
