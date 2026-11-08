@@ -14,7 +14,7 @@ class Gemini:
             http_options=HttpOptions(api_version='v1'), 
             api_key=os.getenv('LLM_API_KEY')
         )
-    
+
 
     def __get_llm_promp__(self, history_questions: list):
 
@@ -37,10 +37,10 @@ class Gemini:
         - Considere um pedido completo somente quando todas as informações necessárias estiverem disponíveis.
         - Não classifique uma reclamação como pedido apenas porque ela menciona um produto.
 
+        Retorne os resultados em formato JSON.
+
         Essas são as repostas anteriores do usuario:
         {history}
-
-        Retorne os resultados em formato JSON.
         """
 
 
