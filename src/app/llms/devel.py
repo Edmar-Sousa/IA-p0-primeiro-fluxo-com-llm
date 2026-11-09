@@ -6,14 +6,14 @@ class Devel:
     
     def __init__(self):
         self.__client = Client(
-            host=os.getenv('LLM_HOST_ADDRESS')
+            host=os.getenv('DEVEL_ADDRESS')
         )
 
 
     def process_question(self, message: str, history_questions: list = []):
 
         response = self.__client.chat(
-            model="qwen3.5:9b-q4_K_M",
+            model=os.getenv('DEVEL_MODEL'),
             messages=[
                 {
                     "role": "user",

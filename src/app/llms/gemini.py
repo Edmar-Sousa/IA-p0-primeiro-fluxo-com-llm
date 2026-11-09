@@ -12,7 +12,7 @@ class Gemini:
     def __init__(self):
         self._client = genai.Client(
             http_options=HttpOptions(api_version='v1'), 
-            api_key=os.getenv('LLM_API_KEY')
+            api_key=os.getenv('GEMINI_API_KEY')
         )
 
 
@@ -47,7 +47,7 @@ class Gemini:
     def process_question(self, message: str, history_questions: list = []):
 
         response = self._client.models.generate_content(
-            model='gemini-3.1-flash-lite',
+            model=os.getenv('GEMINI_MODEL'),
             contents=message,
             config=types.GenerateContentConfig(
                 system_instruction=self.__get_llm_promp__(history_questions),
