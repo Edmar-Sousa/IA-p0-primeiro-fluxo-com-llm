@@ -91,7 +91,23 @@ precisam ser definidas:
 
 ```bash
 # .env.exemplo
-LLM_API_KEY=<api-key-obtida-no-google-ai-studio>
+# Definindo o provedor, valores validos são: gemini ou devel
+LLM_PROVIDER=<the-provider>
+
+# Gemini
+#
+# Para utilizar a LLM do google é preciso definir a API_KEY
+# e o modelo
+GEMINI_API_KEY=<api-key-obtida-no-google-ia-studio>
+GEMINI_MODEL=gemini-3.1-flash-lite
+
+# Devel
+#
+# Para utilizar a LLM fornecida na capacitação em IA.
+# Ou uma LLM baseada em Ollama
+DEVEL_MODEL=qwen3.5:9b-q4_K_M 
+DEVEL_ADDRESS=<host-to-llm>
+
 ```
 
 ### Configuração do ambiente
