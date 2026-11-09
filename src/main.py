@@ -1,15 +1,17 @@
+import os
+
 from dotenv import load_dotenv
 
 from app.app import App
-from app.utils import check_exists_llm_api_key
+from app.utils import check_env_vars_is_defined
 
 
 
 def main() -> None:
     load_dotenv()
-    check_exists_llm_api_key()
+    check_env_vars_is_defined()
 
-    app = App('devel')
+    app = App(os.getenv('LLM_PROVIDER'))
     app.process_user_message()
 
 
