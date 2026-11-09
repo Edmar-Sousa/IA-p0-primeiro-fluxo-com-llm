@@ -36,15 +36,15 @@ class Devel:
 
 
     def process_question(self, message: str, history_questions: list = []):
-        print(self.__get_messages__(message, history_questions))
-        # response = self.__client.chat(
-        #     model=os.getenv('DEVEL_MODEL'),
-        #     messages=self.__get_messages__(message, history_questions),
-        #     options={
-        #         'temperature': 0.2
-        #     },
-        #     format=ATTENDANT_SCHEMA
-        # )
+        
+        response = self.__client.chat(
+            model=os.getenv('DEVEL_MODEL'),
+            messages=self.__get_messages__(message, history_questions),
+            options={
+                'temperature': 0.2
+            },
+            format=ATTENDANT_SCHEMA
+        )
 
-        # return response.message.content
+        return response.message.content
 
