@@ -1,5 +1,7 @@
 import os
 
+from pathlib import Path
+
 
 def print_header(title: str):
     print('~~' * 30)
@@ -17,13 +19,14 @@ def print_order(order: dict):
     print(f' - Endereço: {order['order']['address']}\n')
     print(' - Pedido:')
 
-    print('--' * 30)
     for i, food in enumerate(order['order']['foods']):
         print(f'\t{i + 1}. {food}')
-    print('--' * 30)
+    
+    if len(order['order']['drinks']) > 0:
+        print('--' * 30)
 
-    for i, drinks in enumerate(order['order']['drinks']):
-        print(f'\t{i + 1}. {drinks}')
+        for i, drinks in enumerate(order['order']['drinks']):
+            print(f'\t{i + 1}. {drinks}')
 
     print('--' * 30)
     
@@ -71,3 +74,10 @@ def check_env_vars_is_defined():
     
     else:
         raise Exception('The LLM_PROVIDER dont\'s valid')
+
+
+def read_promp_from_txt():
+    current_dir = Path(__file__).resolve().parent / "promp" / "promp.txt"
+    
+    file = open(current_dir, 'r', encoding='utf-8')
+    return file.read()
