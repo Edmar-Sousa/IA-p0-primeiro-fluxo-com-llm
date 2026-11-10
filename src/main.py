@@ -2,8 +2,8 @@ import os
 
 from dotenv import load_dotenv
 
-from app.app import App
-from app.utils import check_env_vars_is_defined
+from src.app.app import App
+from src.app.utils import check_env_vars_is_defined
 
 
 

@@ -1,7 +1,7 @@
 import os
 from ollama import Client
 
-from app.utils import read_promp_from_txt
+from src.app.utils import read_promp_from_txt
 from .schema import ATTENDANT_SCHEMA
 
 

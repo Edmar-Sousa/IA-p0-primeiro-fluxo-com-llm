@@ -5,7 +5,7 @@ from google import genai
 from google.genai import types
 from google.genai.types import HttpOptions
 
-from app.utils import read_promp_from_txt
+from src.app.utils import read_promp_from_txt
 from .schema import ATTENDANT_SCHEMA
 
 class Gemini:
