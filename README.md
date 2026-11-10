@@ -140,10 +140,10 @@ pip install -r requirements.txt
 
 ### Execução do projeto
 
-Para executar o projeto, utilize o seguinte comando 
+Para executar o projeto no CMD, utilize o seguinte comando 
 na raiz do repositório:
 
 ```bash
-python src/main.py
+python -m src.main
 ```
 
