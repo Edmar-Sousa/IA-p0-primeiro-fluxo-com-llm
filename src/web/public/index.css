@@ -25,9 +25,16 @@
 
     display: flex;
     align-items: center;
+    flex-direction: column;
     justify-content: center;
 
     gap: 20px;
+}
+
+@media (min-width: 425px) {
+    .view-mode .buttons-container {
+        flex-direction: row;
+    }
 }
 
 .view-mode .buttons-container a {
