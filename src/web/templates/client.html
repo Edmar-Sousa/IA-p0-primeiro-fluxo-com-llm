@@ -6,6 +6,7 @@
     <title>P0 - Primeiro Fluxo Com IA - Cliente</title>
 
     <link rel="stylesheet" href="/static/client.css" />
+    <script defer src="/static/js/client.js"></script>
 </head>
 <body>
     
@@ -31,11 +32,17 @@
 
             <div>
                 <h3>Pizzaria nota 1000</h3>
-                <p>online</p>
+                <p class="status">carregando....</p>
             </div>
         </header>
 
-        <main class="messages-area">
+        <div class="loadding-state">
+            <p>Carregando...</p>
+        </div>
+
+        <div class="error hidden"><h3></h3></div>
+
+        <main class="messages-area hidden">
             <!-- <div class="message left">
                 <p>
                     Olá gostaria de pedir uma pizza de frango com catupiry.
@@ -49,7 +56,7 @@
             </div> -->
         </main>
 
-        <div class="message-input-area">
+        <div class="message-input-area hidden">
             <div class="input-message-container">
                 <div
                     contenteditable
