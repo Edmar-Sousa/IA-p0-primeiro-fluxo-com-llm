@@ -22,6 +22,10 @@ web.mount('/static', StaticFiles(directory='./src/web/public'), name='statics')
 def home():
     return FileResponse('./src/web/templates/index.html')
 
+@web.get('/client')
+def client():
+    return FileResponse('./src/web/templates/client.html')
+
 
 @web.get('/health')
 def health():
