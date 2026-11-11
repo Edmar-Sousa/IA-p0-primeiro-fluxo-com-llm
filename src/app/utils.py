@@ -1,6 +1,7 @@
 import os
 
 from pathlib import Path
+from .exception import EnvironmentVariablesError
 
 
 def print_header(title: str):
@@ -49,7 +50,10 @@ def answer_to_store(answer: dict):
 
 def check_exists_env_var(var_name: str):
     if var_name not in os.environ:
-        raise Exception(f'var {var_name} not defined in the environment.')
+        raise EnvironmentVariablesError(
+            var_name,
+            'Erro na configuração do sistema'
+        )
 
 
 def check_enviroment_to_gemini():
