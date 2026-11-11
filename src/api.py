@@ -40,7 +40,17 @@ def client():
 def messages():
     return JSONResponse(
         content={
-            'chat': chat_messages
+            'chat': chat_messages,
+        }
+    )
+
+@web.get('/dashboard')
+def dashboard():
+    return JSONResponse(
+        content={
+            'orders': orders,
+            'complaints': complaints,
+            'compliments': compliments,
         }
     )
 
@@ -68,7 +78,6 @@ def processMessage(body: MessageRequest):
         }
 
         chat_messages.append(response)
-        
         return JSONResponse(content=response)
 
     except Exception as e:
