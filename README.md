@@ -75,6 +75,7 @@ resposta do sistema.
 
 ## Instalação
 
+O projeto conta com uma aplicação de linha de comandos e uma interface web.
 A seguir, estão os passos necessários para executar o projeto localmente.
 
 ### Configuração da LLM
@@ -138,12 +139,23 @@ do projeto utilizando o `pip`:
 pip install -r requirements.txt
 ```
 
-### Execução do projeto
+### Execução do projeto 
+
+#### CMD
 
 Para executar o projeto no CMD, utilize o seguinte comando 
-na raiz do repositório:
+na raiz do projeto:
 
 ```bash
 python -m src.main
+```
+
+#### Interface Web
+
+Para executar o projeto com a interface WEB , utilize o seguinte comando
+na raiz do projeto:
+
+```bash
+uvicorn src.api:web --host 0.0.0.0 --port 8000
 ```
 
