@@ -36,6 +36,10 @@ def home():
 def client():
     return FileResponse('./src/web/templates/client.html')
 
+@web.get('/store')
+def client():
+    return FileResponse('./src/web/templates/store.html')
+
 @web.get('/chat/messages')
 def messages():
     return JSONResponse(
@@ -69,7 +73,7 @@ def processMessage(body: MessageRequest):
         elif answer['category'] == 'elogio':
             compliments.append(answer)
 
-        else:
+        elif answer['category'] == 'reclamacao':
             complaints.append(answer)
 
         response = { 
