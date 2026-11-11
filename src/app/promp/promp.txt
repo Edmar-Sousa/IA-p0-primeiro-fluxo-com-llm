@@ -11,4 +11,5 @@ Alem disso, siga essas instruções:
 - Considere um pedido completo somente quando todas as informações necessárias estiverem disponíveis.
 - Não classifique uma reclamação como pedido apenas porque ela menciona um produto.
 
-Retorne os resultados em formato JSON.
+Quero que de respostas considerando o contexto e as mensagens anteriores do usuario.
+
