@@ -36,7 +36,13 @@ def home():
 def client():
     return FileResponse('./src/web/templates/client.html')
 
-
+@web.get('/chat/messages')
+def messages():
+    return JSONResponse(
+        content={
+            'chat': chat_messages
+        }
+    )
 
 @web.post('/process-message')
 def processMessage(body: MessageRequest):
@@ -61,6 +67,8 @@ def processMessage(body: MessageRequest):
             'content': answer['answer_to_user']
         }
 
+        chat_messages.append(response)
+        
         return JSONResponse(content=response)
 
     except Exception as e:

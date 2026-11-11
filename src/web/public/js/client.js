@@ -52,6 +52,21 @@ function updateStatusBot(body) {
     status.innerText = body.status
 }
 
+
+async function getChatHistoric() {
+    const btnSend = document.querySelector('.btn-send')
+
+    btnSend.disabled = true
+
+    const response = await fetch('/chat/messages')
+    const body = await response.json()
+
+    for (const msg of body.chat)
+        addMessage(msg.type == 'system', msg.content)
+
+    btnSend.disabled = false
+}
+
 function registerEventsToSendMessage() {
     document.querySelector('.btn-send').addEventListener('click', sendMessageToBot)
 }
@@ -62,6 +77,7 @@ function updateScreenToChat(body) {
     document.querySelector('.messages-area').classList.remove('hidden')
     updateStatusBot(body)
 
+    getChatHistoric()
     registerEventsToSendMessage()
 }
 
