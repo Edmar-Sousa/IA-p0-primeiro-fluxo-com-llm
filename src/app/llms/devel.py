@@ -11,13 +11,17 @@ class Devel:
         self.__client = Client(
             host=os.getenv('DEVEL_ADDRESS')
         )
+
+
+    def __get_llm_promp__(self):
+        return read_promp_from_txt() + '\nRetorne os resultados em formato JSON.'
     
 
     def __get_messages__(self, message: str, history: list):
         messages = [
             {
                 'role': 'system',
-                'content': read_promp_from_txt()
+                'content': self.__get_llm_promp__()
             }
         ]
 

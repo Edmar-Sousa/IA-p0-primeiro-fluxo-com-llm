@@ -19,12 +19,13 @@ class Gemini:
 
     def __get_llm_promp__(self, history_questions: list):
         promp = read_promp_from_txt()
-        history = "\nEssas são as repostas anteriores do usuario:\n"
+        history = '\nEssas são as repostas anteriores do usuario:\n'
+        format_response = '\nRetorne os resultados em formato JSON.'
 
         for question in history_questions:
             history += f"- {question}\n"
 
-        return promp + history
+        return promp + history + format_response
 
 
     def process_question(self, message: str, history_questions: list = []):
