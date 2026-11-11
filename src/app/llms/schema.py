@@ -48,7 +48,7 @@ ATTENDANT_SCHEMA = {
                 'alta'
             ]
         },
-        'suggested_answer': {
+        'answer_to_user': {
             'type': 'string'
         }
     },
@@ -56,7 +56,7 @@ ATTENDANT_SCHEMA = {
         'category',
         'summary',
         'priority',
-        'suggested_answer',
+        'answer_to_user',
         'is_complete'
     ]
 }

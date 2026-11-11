@@ -35,7 +35,7 @@ def print_order(order: dict):
 
 def answer_to_client(answer: dict):
     print_header('RESPOSTA PARA O CLIENTE')
-    print(f'>>> {answer["suggested_answer"]}')
+    print(f'>>> {answer["answer_to_user"]}')
     print('~~' * 30)
 
 

@@ -31,7 +31,7 @@ def complete_order(answer: dict):
     order = answer.copy()
 
     while not order['is_complete']:
-        print(f'<<< {order['suggested_answer']}')
+        print(f'<<< {order['answer_to_user']}')
 
         question = input('>>> ')
         chat_messages.append(question)
