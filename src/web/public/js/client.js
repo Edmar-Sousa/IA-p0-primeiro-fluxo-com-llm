@@ -33,7 +33,13 @@ async function processMessage(message) {
     })
 
     const body = await response.json()
-    addMessage(true, body.content)
+
+    if (response.status == 200) 
+        addMessage(true, body.content)
+
+    else 
+        updateScreenToError(body)
+
 }
 
 function sendMessageToBot() {
@@ -85,11 +91,15 @@ function updateScreenToChat(body) {
 function updateScreenToError(body) {
     removeLoadding()
 
+    document.querySelector('.message-input-area').classList.add('hidden')
+    document.querySelector('.messages-area').classList.add('hidden')
+
     const errorScreen = document.querySelector('.error')
     const h3 = errorScreen.querySelector('h3')
 
     errorScreen.classList.remove('hidden')
     h3.innerText = body.details
+
 
     updateStatusBot(body)
 }
