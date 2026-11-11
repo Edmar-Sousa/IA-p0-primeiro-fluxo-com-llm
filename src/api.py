@@ -2,11 +2,13 @@ import os
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 
 from dotenv import load_dotenv
 
 from src.app.app import App
+from src.app.exception import EnvironmentVariablesError
+from src.app.utils import check_env_vars_is_defined
 
 
 load_dotenv()
@@ -29,4 +31,31 @@ def client():
 
 @web.get('/health')
 def health():
-    return {}
+    try:
+        check_env_vars_is_defined()
+        return JSONResponse(
+            content={
+                'status': 'online',
+                'details': 'Como posso ajuda-lo?'
+            }
+        )
+
+    except EnvironmentVariablesError as err:
+        return JSONResponse(
+            status_code=503, 
+            content={
+                'status': 'offline',
+                'details': str(err)
+            }
+        )
+
+    except Exception:
+        return JSONResponse(
+            status_code=500,
+            content={
+                'status': 'offline',
+                'details': 'Erro interno do sistema!'
+            }
+        )
+
+    
