@@ -6,15 +6,23 @@ from fastapi.responses import FileResponse, JSONResponse
 
 from dotenv import load_dotenv
 
-from src.app.app import App
+
+from src.web.models.message import MessageRequest
 from src.app.exception import EnvironmentVariablesError
 from src.app.utils import check_env_vars_is_defined
-
+from src.app.llmfactory import LLMFactory
 
 load_dotenv()
 
 web = FastAPI()
-attendant = App(os.getenv('LLM_PROVIDER'))
+llm = LLMFactory.create(os.getenv('LLM_PROVIDER'))
+
+chat_messages = []
+user_messages = []
+
+orders = []
+complaints = []
+compliments = []
 
 
 web.mount('/static', StaticFiles(directory='./src/web/public'), name='statics')
@@ -27,6 +35,43 @@ def home():
 @web.get('/client')
 def client():
     return FileResponse('./src/web/templates/client.html')
+
+
+
+@web.post('/process-message')
+def processMessage(body: MessageRequest):
+
+    try:
+        answer = llm.process_question(body.message, user_messages)
+
+        chat_messages.append({ 'type': 'user', 'content': body.message })
+        user_messages.append(body.message)
+
+        if answer['category'] == 'pedido' and answer['is_complete']:
+            orders.append(answer)
+
+        elif answer['category'] == 'elogio':
+            compliments.append(answer)
+
+        else:
+            complaints.append(answer)
+
+        response = { 
+            'type': 'system', 
+            'content': answer['answer_to_user']
+        }
+
+        return JSONResponse(content=response)
+
+    except Exception as e:
+        return JSONResponse(
+            status_code=503,
+            content={ 
+                'status': 'offline',
+                'details': 'Perdoe-nos, mas ocorreu um erro inesperado!'
+            }
+        )
+
 
 
 @web.get('/health')
