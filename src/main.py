@@ -10,6 +10,7 @@ from src.app.llmfactory import LLMFactory
 from src.app.exception import AppException, AppInputError
 from src.app.utils import print_header, print_order, answer_to_client, answer_to_store
 
+load_dotenv()
 
 llm = LLMFactory.create(os.getenv('LLM_PROVIDER'))
 chat_messages = []
@@ -84,7 +85,6 @@ def process_user_messages():
 
 
 def main() -> None:
-    load_dotenv()
 
     try:
         check_env_vars_is_defined()
