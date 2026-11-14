@@ -1,7 +1,7 @@
 import os
 import requests
 
-from src.app.exception import AppLLMResponseNotJSON
+from src.app.exception import AppLLMResponseNotJSON, AppLLMTimeOut, AppLLMServiceUnavailable
 from src.app.utils import read_promp_from_txt
 from .schema import ATTENDANT_SCHEMA
 
@@ -46,24 +46,35 @@ class Devel:
 
         except requests.exceptions.JSONDecodeError as err:
             print(f'[SYSTEM] Error to parse json response {str(err)}')
-            raise AppLLMResponseNotJSON()
+            raise AppLLMResponseNotJSON('Erro interno! Nosso BOT de atendimento deu problema! Por favor tente novamente mais tarde!')
+
+
+    def __ask_to_llm__(self, message: str, history_questions: list = []):
+        try:
+            response = requests.post(
+                f'{self.__url}/api/chat',
+                json={
+                    'model': self.__model,
+                    'messages': self.__get_messages__(message, history_questions),
+                    'format': ATTENDANT_SCHEMA,
+                    'stream': False,
+                },
+                verify=False,
+                timeout=(5, 120)
+            )
+
+            if response.status_code == 503:
+                raise AppLLMServiceUnavailable('Descupe! Mas nossa LLM não esta disponivel no momento!')
+
+            print(f'[SYSTEM] A LLM respondeu: {response.status_code}')
+            return response
+
+        except requests.exceptions.Timeout as err:
+            print(f'[SYSTEM] Timeout request error: {str(err)}')
+            raise AppLLMTimeOut('Nosso agente demorou muito para responder! Tente novamente!')
 
 
     def process_question(self, message: str, history_questions: list = []):
-
-        response = requests.post(
-            f'{self.__url}/api/chat',
-            json={
-                'model': self.__model,
-                'messages': self.__get_messages__(message, history_questions),
-                'format': ATTENDANT_SCHEMA,
-                'stream': False,
-            },
-            verify=False,
-            timeout=(5, 120)
-        )
-
-        print(f'[SYSTEM] A LLM respondeu: {response.status_code}')
-
+        response = self.__ask_to_llm__(message, history_questions)
         return self.__parse_response_to_json__(response)
 

@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 
 from src.web.models.message import MessageRequest
-from src.app.exception import EnvironmentVariablesError
+from src.app.exception import EnvironmentVariablesError, AppException
 from src.app.utils import check_env_vars_is_defined
 from src.app.llmfactory import LLMFactory
 
@@ -84,14 +84,25 @@ def processMessage(body: MessageRequest):
         chat_messages.append(response)
         return JSONResponse(content=response)
 
+    except AppException as err:
+        print(f'[SYSTEM] Error to processing: {str(err)}')
+
+        return JSONResponse(
+            status_code=err.code,
+            content={
+                'code_str': err.code_str,
+                'message': err.message,
+            }
+        )
+
     except Exception as e:
         print(f'[SYSTEM] Error to precessing: {str(e)}')
 
         return JSONResponse(
-            status_code=503,
+            status_code=500,
             content={ 
-                'status': 'offline',
-                'details': 'Perdoe-nos, mas ocorreu um erro inesperado!'
+                'code_str': 'INTERNAL_SERVER_ERROR',
+                'message': 'Erro interno da aplicação! Contate um administrador e tente novamente mais tarde!'
             }
         )
 
