@@ -1,6 +1,7 @@
 import os
-from ollama import Client
+import requests
 
+from src.app.exception import AppLLMResponseNotJSON
 from src.app.utils import read_promp_from_txt
 from .schema import ATTENDANT_SCHEMA
 
@@ -8,9 +9,9 @@ from .schema import ATTENDANT_SCHEMA
 class Devel:
     
     def __init__(self):
-        self.__client = Client(
-            host=os.getenv('DEVEL_ADDRESS')
-        )
+        self.__url = os.getenv('DEVEL_ADDRESS')
+        self.__model = os.getenv('DEVEL_MODEL')
+
 
 
     def __get_llm_promp__(self):
@@ -39,16 +40,30 @@ class Devel:
         return messages
 
 
+    def __parse_response_to_json__(self, response: requests.Response):
+        try:
+            return response.json()
+
+        except requests.exceptions.JSONDecodeError as err:
+            print(f'[SYSTEM] Error to parse json response {str(err)}')
+            raise AppLLMResponseNotJSON()
+
+
     def process_question(self, message: str, history_questions: list = []):
-        
-        response = self.__client.chat(
-            model=os.getenv('DEVEL_MODEL'),
-            messages=self.__get_messages__(message, history_questions),
-            options={
-                'temperature': 0.2
+
+        response = requests.post(
+            f'{self.__url}/api/chat',
+            json={
+                'model': self.__model,
+                'messages': self.__get_messages__(message, history_questions),
+                'format': ATTENDANT_SCHEMA,
+                'stream': False,
             },
-            format=ATTENDANT_SCHEMA
+            verify=False,
+            timeout=(5, 120)
         )
 
-        return response.message.content
+        print(f'[SYSTEM] A LLM respondeu: {response.status_code}')
+
+        return self.__parse_response_to_json__(response)
 
