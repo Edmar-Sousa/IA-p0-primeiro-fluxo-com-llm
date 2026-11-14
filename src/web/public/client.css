@@ -85,6 +85,10 @@
     color: var(--placeholder-color);
 }
 
+.input-message:disabled {
+    background: none;
+}
+
 .input-message-btn-container {
     width: 100%;
 
@@ -115,6 +119,20 @@
     background: var(--purple-color);
 }
 
+
+.screen-error-state {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: auto;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    text-align: center;
+}
+
+.screen-error-state h2  {
+    font-size: 30px;
+    line-height: 45px;
+}
 
 .chat-messages {
     flex: 1;
