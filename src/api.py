@@ -85,6 +85,8 @@ def processMessage(body: MessageRequest):
         return JSONResponse(content=response)
 
     except Exception as e:
+        print(f'[SYSTEM] Error to precessing: {str(e)}')
+
         return JSONResponse(
             status_code=503,
             content={ 
@@ -107,6 +109,8 @@ def health():
         )
 
     except EnvironmentVariablesError as err:
+        print(f'[SYSTEM] Error health: {str(err)}')
+
         return JSONResponse(
             status_code=503, 
             content={
@@ -115,7 +119,9 @@ def health():
             }
         )
 
-    except Exception:
+    except Exception as err:
+        print(f'[SYSTEM] Error health: {str(err)}')
+
         return JSONResponse(
             status_code=500,
             content={
