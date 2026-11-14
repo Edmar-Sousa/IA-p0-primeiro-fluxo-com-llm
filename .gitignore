@@ -4,3 +4,4 @@ llm-env
 __pycache__
 
 build.sh
+.tar
