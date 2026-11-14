@@ -4,6 +4,22 @@
     box-sizing: border-box;
 }
 
+:root {
+    --background-color: #F8FAFC;
+    --background-white-color: #fff;
+    --background-light-blue: #EEF2FF;
+
+    --stroke-color: #E2E8F0;
+
+    --text-white-color: #fff;
+    --text-color: #1E293B;
+    --placeholder-color: #475569;
+
+    --shadow-color: #1018280c;
+
+    --purple-color: #4F46E5;
+}
+
 body, html {
     overflow-x: hidden;
     height: 100%;

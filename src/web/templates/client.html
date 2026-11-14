@@ -32,31 +32,74 @@
 
             <div>
                 <h3>Pizzaria nota 1000</h3>
-                <p class="status">carregando....</p>
+                <p class="status">Carregando....</p>
             </div>
         </header>
 
-        <div class="loadding-state">
-            <p>Carregando...</p>
-        </div>
+        <main class="chat-messages">
+            <div class="message">
+                <div class="user-circle">
+                    PZ
+                </div>
 
-        <div class="error hidden"><h3></h3></div>
-
-        <main class="messages-area hidden">
-        </main>
-
-        <div class="message-input-area hidden">
-            <div class="input-message-container">
-                <div
-                    contenteditable
-                    name="message" 
-                    class="input-message">
+                <div class="text-message">
+                    <p>Hello! I’m your personal AI Assistant Slothpilot.</p>
+                    <p class="message-time">
+                        15:03
+                    </p>
                 </div>
             </div>
-            
-            <button class="btn-send">
-                Enviar
-            </button>
+
+            <div class="message right">
+                <div class="text-message right">
+                    <p>Hello! I’m your personal AI Assistant Slothpilot.</p>
+                    <p class="message-time">
+                        15:03
+                    </p>
+                </div>
+
+                <div class="user-circle">
+                    VC
+                </div>
+            </div>
+
+            <div class="message">
+                <div class="user-circle">
+                    PZ
+                </div>
+
+                <div class="text-message">
+                    <span class="bullet"></span>
+                    <span class="bullet"></span>
+                    <span class="bullet"></span>
+                </div>
+            </div>
+        </main>
+
+        <div class="input-message-container">
+            <div class="input-message-area">
+                <textarea class="input-message" placeholder="Digite sua mensagem"></textarea>
+
+                <div class="input-message-btn-container">
+                    <button class="button-send-message">
+                        Enviar
+
+                        <svg 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            width="24" 
+                            height="24" 
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            stroke-width="2" 
+                            stroke-linecap="round" 
+                            stroke-linejoin="round">
+                                <path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z"/>
+                                <path d="M6 12h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
