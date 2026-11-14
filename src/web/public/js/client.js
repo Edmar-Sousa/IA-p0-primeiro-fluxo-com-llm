@@ -29,12 +29,30 @@ async function enableInputsAndButtons() {
 }
 
 
+
+async function sendMessageToBot() {
+    const textareaElement = document.querySelector('.input-message')
+
+    const message = textareaElement.value
+    console.log(message)
+    
+    textareaElement.value = ''
+}
+
+
+function registerClickEventInButton() {
+    const buttonSendMsgElement = document.querySelector('.button-send-message')
+    buttonSendMsgElement.addEventListener('click', sendMessageToBot)
+}
+
+
 async function messageHistory() {
     const response = await fetch('/chat/messages')
     const body = await response.json()
 
     hiddenCircularLoadding()
     enableInputsAndButtons()
+    registerClickEventInButton()
 }
 
 
