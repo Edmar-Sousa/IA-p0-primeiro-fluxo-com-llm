@@ -119,8 +119,6 @@
 .chat-messages {
     flex: 1;
     padding: 16px;
-    /* overflow-y: auto; */
-    /* background: #0f0; */
 }
 
 .chat-max-size-container {
@@ -175,6 +173,10 @@
     background: var(--background-white-color);
 }
 
+.text-message.error {
+    border-color: var(--stroke-color-red);
+    background: var(--background-light-red);
+}
 
 .message-time {
     font-family: 'Plus Jakarta Sans', sans-serif;
@@ -199,6 +201,26 @@
     text-align: left;
     font-weight: bold;
     color: var(--text-white-color);
+}
+
+.message-retry-container {
+    width: fit-content;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.button-empty {
+    width: 30px;
+    height: 30px;
+
+    border: none;
+    background: none;
+}
+
+.message-retry-container .button-empty {
+    align-self: flex-end;
+    color: var(--placeholder-color);
 }
 
 
