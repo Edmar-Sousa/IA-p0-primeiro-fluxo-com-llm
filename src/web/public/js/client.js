@@ -20,6 +20,11 @@ async function hiddenCircularLoadding() {
     circularLoaddingElement.classList.add('hidden')
 }
 
+async function toggleLLMResponseAnimation() {
+    const animationElement = document.querySelector('.animation-llm-response')
+    animationElement.classList.toggle('hidden')
+}
+
 async function enableInputsAndButtons() {
     const inputMessageElement = document.querySelector('.input-message')
     const buttonSendMsgElement = document.querySelector('.button-send-message')
@@ -29,14 +34,77 @@ async function enableInputsAndButtons() {
 }
 
 
+async function sendMessageToAPI(message) {
+    const response = await fetch('/process-message', {
+        method: 'POST',
+        body: JSON.stringify({ message }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    const body = await response.json()
+    console.log(body)
+}
+
+
+async function insertUserMessageElement(message) {
+    const messageElement = document.createElement('div')
+    const textMessageContainerElement = document.createElement('div')
+    const userCircleElement = document.createElement('div')
+
+    const now = new Date()
+
+    messageElement.classList.add('message')
+    messageElement.classList.add('right')
+
+    textMessageContainerElement.classList.add('text-message')
+    textMessageContainerElement.classList.add('right')
+
+    userCircleElement.classList.add('user-circle')
+    userCircleElement.innerText = 'VC'
+
+
+    const messageTimeElement = document.createElement('p')
+    const messageTextElement = document.createElement('p')
+
+    messageTextElement.innerText = message
+
+    const minutes = now.getMinutes().toString().padStart(2, '0')
+
+    messageTimeElement.innerText = `${now.getHours()}:${minutes}`
+    messageTimeElement.classList.add('message-time')
+
+    textMessageContainerElement.appendChild(messageTextElement)
+    textMessageContainerElement.appendChild(messageTimeElement)
+
+    messageElement.appendChild(textMessageContainerElement)
+    messageElement.appendChild(userCircleElement)
+
+
+    const llmAnimationElement = document.querySelector('.animation-llm-response')
+    llmAnimationElement.parentNode.insertBefore(messageElement, llmAnimationElement)
+}
+
+
+async function addMessageElementAndSendRequestToAPI(message) {
+    toggleLLMResponseAnimation()
+    insertUserMessageElement(message)
+    await sendMessageToAPI(message)
+    toggleLLMResponseAnimation()
+}
+
 
 async function sendMessageToBot() {
     const textareaElement = document.querySelector('.input-message')
 
     const message = textareaElement.value
-    console.log(message)
-    
     textareaElement.value = ''
+
+    if (message.length > 0) {
+        addMessageElementAndSendRequestToAPI(message)
+    }
+    
 }
 
 
