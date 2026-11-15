@@ -166,6 +166,15 @@ async function addMessageElementAndSendRequestToAPI(message) {
 }
 
 
+async function addMessagesHistoryInChat(messages) {
+
+    for (let msg of messages) {
+        const messageElement = createMessageElement({ message: msg.message, reverse: msg.type != 'system' })
+        insertMessageBeforeLLMLoaddingElement(messageElement)
+    }
+
+}
+
 async function sendMessageToBot() {
     const textareaElement = document.querySelector('.input-message')
 
@@ -192,6 +201,8 @@ async function messageHistory() {
     hiddenCircularLoadding()
     enableInputsAndButtons()
     registerClickEventInButton()
+
+    addMessagesHistoryInChat(body.chat)
 }
 
 
