@@ -34,7 +34,7 @@ async function enableInputsAndButtons() {
 }
 
 function createMessageElement(params) {
-    const { message, reverse = false, isError = false  } = params
+    const { message, reverse = false, isError = false, isRetry = false  } = params
 
     const messageElement = document.createElement('div')
     const textMessageContainerElement = document.createElement('div')
@@ -87,7 +87,12 @@ async function sendMessageToAPI(message) {
         }
     })
 
-    return await response.json()
+    const body = await response.json()
+
+    return {
+        status: response.status,
+        ...body
+    }
 }
 
 
@@ -105,8 +110,22 @@ async function addMessageElementAndSendRequestToAPI(message) {
     insertMessageBeforeLLMLoaddingElement(messageElement)
 
     const response = await sendMessageToAPI(message)
+    
+    let statusCode = 0, isError = false, isRetry = false
+    let statusAllowedRetry = ['JSON_LLM_RESPONSE_ERROR', 'LLM_TIMEOUT_ERROR', 'LLM_SERVICE_UNAVAILABLE']
 
-    const llmMessageElement = createMessageElement({ message: response.message, isError: false })
+
+    if (response.status != 200) {
+        isRetry = statusAllowedRetry.includes(response.code_str)
+        isError = true
+    }
+    
+    let llmMessageElement = createMessageElement({ 
+        message: response.message, 
+        isError,
+        isRetry,
+    })
+
     insertMessageBeforeLLMLoaddingElement(llmMessageElement)
 
     toggleLLMResponseAnimation()
