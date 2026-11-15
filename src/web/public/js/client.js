@@ -33,6 +33,44 @@ async function enableInputsAndButtons() {
     buttonSendMsgElement.disabled = false
 }
 
+function createMessageElement(message, reverse = false) {
+    const messageElement = document.createElement('div')
+    const textMessageContainerElement = document.createElement('div')
+    const userCircleElement = document.createElement('div')
+
+    const now = new Date()
+    const minutes = now.getMinutes().toString().padStart(2, '0')
+
+    messageElement.classList.add('message')
+
+    if (reverse) {
+        messageElement.classList.add('right')
+        textMessageContainerElement.classList.add('right')
+    }
+
+    textMessageContainerElement.classList.add('text-message')
+
+    userCircleElement.classList.add('user-circle')
+    userCircleElement.innerText = 'VC'
+
+    const messageTimeElement = document.createElement('p')
+    const messageTextElement = document.createElement('p')
+
+    messageTextElement.innerText = message
+    
+    messageTimeElement.innerText = `${now.getHours()}:${minutes}`
+    messageTimeElement.classList.add('message-time')
+
+
+    textMessageContainerElement.appendChild(messageTextElement)
+    textMessageContainerElement.appendChild(messageTimeElement)
+
+    messageElement.appendChild(reverse ? textMessageContainerElement : userCircleElement)
+    messageElement.appendChild(reverse ? userCircleElement : textMessageContainerElement)
+
+    return messageElement
+}
+
 
 async function sendMessageToAPI(message) {
     const response = await fetch('/process-message', {
@@ -43,45 +81,12 @@ async function sendMessageToAPI(message) {
         }
     })
 
-    const body = await response.json()
-    console.log(body)
+    return await response.json()
 }
 
 
-async function insertUserMessageElement(message) {
-    const messageElement = document.createElement('div')
-    const textMessageContainerElement = document.createElement('div')
-    const userCircleElement = document.createElement('div')
 
-    const now = new Date()
-
-    messageElement.classList.add('message')
-    messageElement.classList.add('right')
-
-    textMessageContainerElement.classList.add('text-message')
-    textMessageContainerElement.classList.add('right')
-
-    userCircleElement.classList.add('user-circle')
-    userCircleElement.innerText = 'VC'
-
-
-    const messageTimeElement = document.createElement('p')
-    const messageTextElement = document.createElement('p')
-
-    messageTextElement.innerText = message
-
-    const minutes = now.getMinutes().toString().padStart(2, '0')
-
-    messageTimeElement.innerText = `${now.getHours()}:${minutes}`
-    messageTimeElement.classList.add('message-time')
-
-    textMessageContainerElement.appendChild(messageTextElement)
-    textMessageContainerElement.appendChild(messageTimeElement)
-
-    messageElement.appendChild(textMessageContainerElement)
-    messageElement.appendChild(userCircleElement)
-
-
+async function insertMessageBeforeLLMLoaddingElement(messageElement) {
     const llmAnimationElement = document.querySelector('.animation-llm-response')
     llmAnimationElement.parentNode.insertBefore(messageElement, llmAnimationElement)
 }
@@ -89,8 +94,14 @@ async function insertUserMessageElement(message) {
 
 async function addMessageElementAndSendRequestToAPI(message) {
     toggleLLMResponseAnimation()
-    insertUserMessageElement(message)
-    await sendMessageToAPI(message)
+
+    const messageElement = createMessageElement(message, true)
+    insertMessageBeforeLLMLoaddingElement(messageElement)
+
+    const response = await sendMessageToAPI(message)
+    const llmMessageElement = createMessageElement(response.message)
+    insertMessageBeforeLLMLoaddingElement(llmMessageElement)
+
     toggleLLMResponseAnimation()
 }
 
