@@ -1,12 +1,15 @@
 import os
 import json
+import time
 
 from google import genai
 from google.genai import types
 from google.genai.types import HttpOptions
 
 from src.app.utils import read_promp_from_txt
+from src.app.exception import AppLLMServiceUnavailable
 from .schema import ATTENDANT_SCHEMA
+
 
 class Gemini:
 
@@ -29,6 +32,9 @@ class Gemini:
 
 
     def process_question(self, message: str, history_questions: list = []):
+
+        # time.sleep(2)
+        # raise AppLLMServiceUnavailable('Descupe! Mas nossa LLM não esta disponivel no momento!')
 
         response = self._client.models.generate_content(
             model=os.getenv('GEMINI_MODEL'),

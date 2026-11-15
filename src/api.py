@@ -78,7 +78,7 @@ def processMessage(body: MessageRequest):
 
         response = { 
             'type': 'system', 
-            'content': answer['answer_to_user']
+            'message': answer['answer_to_user']
         }
 
         chat_messages.append(response)

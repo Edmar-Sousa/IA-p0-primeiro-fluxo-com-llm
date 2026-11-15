@@ -33,7 +33,9 @@ async function enableInputsAndButtons() {
     buttonSendMsgElement.disabled = false
 }
 
-function createMessageElement(message, reverse = false) {
+function createMessageElement(params) {
+    const { message, reverse = false, isError = false  } = params
+
     const messageElement = document.createElement('div')
     const textMessageContainerElement = document.createElement('div')
     const userCircleElement = document.createElement('div')
@@ -49,6 +51,10 @@ function createMessageElement(message, reverse = false) {
     }
 
     textMessageContainerElement.classList.add('text-message')
+
+    if (isError) {
+        textMessageContainerElement.classList.add('error')
+    }
 
     userCircleElement.classList.add('user-circle')
     userCircleElement.innerText = 'VC'
@@ -95,11 +101,12 @@ async function insertMessageBeforeLLMLoaddingElement(messageElement) {
 async function addMessageElementAndSendRequestToAPI(message) {
     toggleLLMResponseAnimation()
 
-    const messageElement = createMessageElement(message, true)
+    const messageElement = createMessageElement({ message, reverse: true })
     insertMessageBeforeLLMLoaddingElement(messageElement)
 
     const response = await sendMessageToAPI(message)
-    const llmMessageElement = createMessageElement(response.message)
+
+    const llmMessageElement = createMessageElement({ message: response.message, isError: false })
     insertMessageBeforeLLMLoaddingElement(llmMessageElement)
 
     toggleLLMResponseAnimation()
