@@ -24,6 +24,8 @@ orders = []
 complaints = []
 compliments = []
 
+incremental_id = 1
+
 
 web.mount('/static', StaticFiles(directory='./src/web/public'), name='statics')
 
@@ -64,7 +66,7 @@ def processMessage(body: MessageRequest):
     try:
         answer = llm.process_question(body.message, user_messages)
 
-        chat_messages.append({ 'type': 'user', 'content': body.message })
+        chat_messages.append({ 'type': 'user', 'message': body.message })
         user_messages.append(body.message)
 
         if answer['category'] == 'pedido' and answer['is_complete']:
