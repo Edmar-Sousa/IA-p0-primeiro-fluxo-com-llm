@@ -50,11 +50,25 @@ def messages():
 
 @web.get('/dashboard')
 def dashboard():
+    orders_response = []
+    complaints_response = []
+    compliments_response = []
+
+    for order in orders:
+        orders_response.append(order.model_dump())
+
+    for complaint in complaints:
+        complaints_response.append(complaint.model_dump())
+
+    for compliment in compliments:
+        compliments_response.append(compliment.model_dump())
+
+
     return JSONResponse(
         content={
-            'orders': orders,
-            'complaints': complaints,
-            'compliments': compliments,
+            'orders': orders_response,
+            'complaints': complaints_response,
+            'compliments': compliments_response,
         }
     )
 
@@ -71,7 +85,7 @@ def processMessage(body: MessageRequest):
             'message': body.message,
         })
 
-        if answer.category == 'pedido' and answer['is_complete']:
+        if answer.category == 'pedido' and answer.is_complete:
             orders.append(answer)
 
         elif answer.category == 'elogio':
