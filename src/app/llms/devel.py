@@ -3,6 +3,7 @@ import requests
 import json
 
 from src.app.exception import AppLLMResponseNotJSON, AppLLMTimeOut, AppLLMServiceUnavailable
+from src.app.models.response import LLMReponse
 from src.app.utils import read_promp_from_txt
 from .schema import ATTENDANT_SCHEMA
 
@@ -41,10 +42,13 @@ class Devel:
         return messages
 
 
-    def __parse_response_to_json__(self, response: requests.Response):
+    def __parse_response_to_json__(self, response: requests.Response) -> LLMReponse:
         try:
-            body = response.json()
-            return json.loads(body['message']['content'])
+            data = LLMReponse.model_validate_json(
+                response.json()["message"]["content"]
+            )
+
+            return data
 
         except requests.exceptions.JSONDecodeError as err:
             print(f'[SYSTEM] Error to parse json response {str(err)}')
@@ -80,7 +84,7 @@ class Devel:
             raise AppLLMTimeOut('Nosso agente demorou muito para responder! Tente novamente!')
 
 
-    def process_question(self, message: str, history_questions: list = []):
+    def process_question(self, message: str, history_questions: list = []) -> LLMReponse:
         response = self.__ask_to_llm__(message, history_questions)
         return self.__parse_response_to_json__(response)
 
