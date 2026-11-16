@@ -14,19 +14,19 @@ def print_header(title: str):
 def print_order(order: dict):
     print_header('RESPOSTA PARA A LOJA')
 
-    print(f' - Tipo: {order["category"]}')
-    print(f' - Resumo: {order["summary"]}')
-    print(f' - Prioridade: {order["priority"]}')
-    print(f' - Endereço: {order['order']['address']}\n')
+    print(f' - Tipo: {order.category}')
+    print(f' - Resumo: {order.summary}')
+    print(f' - Prioridade: {order.priority}')
+    print(f' - Endereço: {order.order.address}\n')
     print(' - Pedido:')
 
-    for i, food in enumerate(order['order']['foods']):
+    for i, food in enumerate(order.order.foods):
         print(f'\t{i + 1}. {food}')
     
-    if len(order['order']['drinks']) > 0:
+    if len(order.order.drinks) > 0:
         print('--' * 30)
 
-        for i, drinks in enumerate(order['order']['drinks']):
+        for i, drinks in enumerate(order.order.drinks):
             print(f'\t{i + 1}. {drinks}')
 
     print('--' * 30)
@@ -35,16 +35,16 @@ def print_order(order: dict):
 
 def answer_to_client(answer: dict):
     print_header('RESPOSTA PARA O CLIENTE')
-    print(f'>>> {answer["answer_to_user"]}')
+    print(f'>>> {answer.answer_to_user}')
     print('~~' * 30)
 
 
 def answer_to_store(answer: dict):
     print_header('RESPOSTA PARA A LOJA')
     
-    print(f' - tipo: {answer["category"]}')
-    print(f' - resumo: {answer["summary"]}')
-    print(f' - prioridade: {answer["priority"]}')
+    print(f' - tipo: {answer.category}')
+    print(f' - resumo: {answer.summary}')
+    print(f' - prioridade: {answer.priority}')
     print('~~' * 30)
 
 

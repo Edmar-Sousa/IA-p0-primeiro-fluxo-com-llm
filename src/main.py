@@ -29,27 +29,45 @@ def get_user_input():
         raise AppInputError('\nTchau! Até mais!')
 
 def complete_order(answer: dict):
-    order = answer.copy()
+    order = answer.model_copy()
 
-    while not order['is_complete']:
-        print(f'<<< {order['answer_to_user']}')
+    while not order.is_complete:
+        print(f'<<< {order.answer_to_user}')
 
         question = input('>>> ')
-        chat_messages.append(question)
         order = llm.process_question(question, chat_messages)
+
+        chat_messages.append({
+            'type': 'user',
+            'message': question
+        })
+    
+        chat_messages.append({
+            'type': 'assistant',
+            'message': answer.answer_to_user
+        })
 
     return order
 
 
 def ask_to_llm(question: str):
     answer = llm.process_question(question)
-    chat_messages.append(question)
+
+    chat_messages.append({
+        'type': 'user',
+        'message': question
+    })
+
+    chat_messages.append({
+        'type': 'assistant',
+        'message': answer.answer_to_user
+    })
     
-    if answer['category'] == 'pedido':
+    if answer.category == 'pedido':
         order = complete_order(answer)
         print_order(order)
     
-    elif answer['category'] == 'elogio':
+    elif answer.category == 'elogio':
         answer_to_store(answer)
     
     else:
@@ -70,13 +88,6 @@ def process_user_messages():
 
         except AppException as e:
             print(e)
-            break
-
-        except APIError as e:
-            print(
-                "Perdoe-nos, mas ocorreu um erro no nosso sistema! "
-                "Tente novamente em alguns instantes."
-            )
             break
 
         except Exception as e:

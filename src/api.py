@@ -71,18 +71,18 @@ def processMessage(body: MessageRequest):
             'message': body.message,
         })
 
-        if answer['category'] == 'pedido' and answer['is_complete']:
+        if answer.category == 'pedido' and answer['is_complete']:
             orders.append(answer)
 
-        elif answer['category'] == 'elogio':
+        elif answer.category == 'elogio':
             compliments.append(answer)
 
-        elif answer['category'] == 'reclamacao':
+        elif answer.category == 'reclamacao':
             complaints.append(answer)
 
         response = {
             'type': 'assistant',
-            'message': answer['answer_to_user']
+            'message': answer.answer_to_user
         }
 
         chat_messages.append(response)
