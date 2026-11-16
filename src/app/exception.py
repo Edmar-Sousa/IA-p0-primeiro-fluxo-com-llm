@@ -48,6 +48,16 @@ class AppLLMServiceUnavailable(AppException):
         )
 
 
+class AppErrorLLM(AppException):
+    def __init__(self, message, *args):
+        super().__init__(
+            message=message, 
+            code=500, 
+            code_str='ERROR_LLM_PROCESS_MESSAGE', 
+            *args
+        )
+
+
 class EnvironmentVariablesError(AppException):
     def __init__(self, var_name: str | None = None, *args):
         super().__init__(*args)
