@@ -59,5 +59,4 @@ ATTENDANT_SCHEMA = {
         'answer_to_user',
         'is_complete'
     ],
-    'additionalProperties': False
 }

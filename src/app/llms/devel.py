@@ -27,10 +27,10 @@ class Devel:
             }
         ]
 
-        for message in history:
+        for msg in history:
             messages.append({
-                'role': 'user',
-                'content': message
+                'role': msg['type'],
+                'content': msg['message']
             })
         
         messages.append({

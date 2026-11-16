@@ -130,7 +130,7 @@ async function addMessageElementAndSendRequestToAPI(message) {
 async function addMessagesHistoryInChat(messages) {
 
     for (let msg of messages) {
-        const messageElement = createMessageElement({ message: msg.message, reverse: msg.type != 'system' })
+        const messageElement = createMessageElement({ message: msg.message, reverse: msg.type != 'assistant' })
         insertMessageBeforeLLMLoaddingElement(messageElement)
     }
 

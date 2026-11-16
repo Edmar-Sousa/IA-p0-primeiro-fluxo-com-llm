@@ -18,7 +18,6 @@ web = FastAPI()
 llm = LLMFactory.create(os.getenv('LLM_PROVIDER'))
 
 chat_messages = []
-user_messages = []
 
 orders = []
 complaints = []
@@ -63,7 +62,7 @@ def dashboard():
 def processMessage(body: MessageRequest):
 
     try:
-        answer = llm.process_question(body.message, user_messages)
+        answer = llm.process_question(body.message, chat_messages)
 
         print(f'[SYSTEM] Json de resposta: {answer}')
 
@@ -71,8 +70,6 @@ def processMessage(body: MessageRequest):
             'type': 'user', 
             'message': body.message,
         })
-
-        user_messages.append(body.message)
 
         if answer['category'] == 'pedido' and answer['is_complete']:
             orders.append(answer)
@@ -84,7 +81,7 @@ def processMessage(body: MessageRequest):
             complaints.append(answer)
 
         response = {
-            'type': 'system',
+            'type': 'assistant',
             'message': answer['answer_to_user']
         }
 
