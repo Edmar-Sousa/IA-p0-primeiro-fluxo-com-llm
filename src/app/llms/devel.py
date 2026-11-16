@@ -16,7 +16,7 @@ class Devel:
 
 
     def __get_llm_promp__(self):
-        return read_promp_from_txt() + '\nRetorne os resultados em formato JSON.'
+        return read_promp_from_txt()
     
 
     def __get_messages__(self, message: str, history: list):
@@ -60,6 +60,10 @@ class Devel:
                     'messages': self.__get_messages__(message, history_questions),
                     'format': ATTENDANT_SCHEMA,
                     'stream': False,
+
+                    'options': {
+                        'temperature': 0
+                    }
                 },
                 verify=False,
                 timeout=(5, 120)
