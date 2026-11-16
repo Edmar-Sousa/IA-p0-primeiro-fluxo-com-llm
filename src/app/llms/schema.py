@@ -30,7 +30,6 @@ ATTENDANT_SCHEMA = {
                 }
             },
             "required": ["address", "drinks", "foods"],
-            "additionalProperties": False
         },
         "is_complete": {
             "type": "boolean",
@@ -53,5 +52,4 @@ ATTENDANT_SCHEMA = {
         "priority",
         "answer_to_user"
     ],
-    "additionalProperties": False
 }
