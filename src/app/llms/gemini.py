@@ -6,6 +6,7 @@ from google import genai
 from google.genai import types
 from google.genai.types import HttpOptions
 
+from src.app.models.response import LLMReponse
 from src.app.utils import read_promp_from_txt
 from .schema import ATTENDANT_SCHEMA
 
@@ -31,7 +32,7 @@ class Gemini:
         return promp + history + format_response
 
 
-    def process_question(self, message: str, history_questions: list = []):
+    def process_question(self, message: str, history_questions: list = []) -> LLMReponse:
 
         response = self._client.models.generate_content(
             model=os.getenv('GEMINI_MODEL'),
@@ -43,4 +44,4 @@ class Gemini:
             )
         )
 
-        return json.loads(response.text)
+        return LLMReponse.model_validate_json(response.text)
