@@ -1,5 +1,6 @@
 import os
 import requests
+import json
 
 from src.app.exception import AppLLMResponseNotJSON, AppLLMTimeOut, AppLLMServiceUnavailable
 from src.app.utils import read_promp_from_txt
@@ -42,7 +43,8 @@ class Devel:
 
     def __parse_response_to_json__(self, response: requests.Response):
         try:
-            return response.json()
+            body = response.json()
+            return json.loads(body['message']['content'])
 
         except requests.exceptions.JSONDecodeError as err:
             print(f'[SYSTEM] Error to parse json response {str(err)}')

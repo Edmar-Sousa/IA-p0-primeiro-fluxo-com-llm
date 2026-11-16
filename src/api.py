@@ -65,6 +65,8 @@ def processMessage(body: MessageRequest):
     try:
         answer = llm.process_question(body.message, user_messages)
 
+        print(f'[SYSTEM] Json de resposta: {answer}')
+
         chat_messages.append({ 
             'type': 'user', 
             'message': body.message,

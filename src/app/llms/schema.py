@@ -58,5 +58,6 @@ ATTENDANT_SCHEMA = {
         'priority',
         'answer_to_user',
         'is_complete'
-    ]
+    ],
+    'additionalProperties': False
 }
