@@ -33,30 +33,8 @@ async function enableInputsAndButtons() {
     buttonSendMsgElement.disabled = false
 }
 
-function createButtonRetry() {
-
-    const buttonElement = document.createElement('button')
-    buttonElement.classList.add('button-empty')
-
-    buttonElement.innerHTML = `<svg 
-        xmlns="http://www.w3.org/2000/svg" 
-        width="24" 
-        height="24" 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        stroke="currentColor" 
-        stroke-width="2" 
-        stroke-linecap="round" 
-        stroke-linejoin="round">
-            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-            <path d="M3 3v5h5"/>
-    </svg>`
-
-    return buttonElement
-}
-
 function createMessageElement(params) {
-    const { message, reverse = false, isError = false, isRetry = false  } = params
+    const { message, reverse = false, isError = false  } = params
 
     const messageElement = document.createElement('div')
     const textMessageContainerElement = document.createElement('div')
@@ -96,17 +74,6 @@ function createMessageElement(params) {
     messageElement.appendChild(reverse ? textMessageContainerElement : userCircleElement)
     messageElement.appendChild(reverse ? userCircleElement : textMessageContainerElement)
 
-    if (isRetry) {
-        const containerRetryElement = document.createElement('div')
-        const buttonRetryElement = createButtonRetry()
-
-        containerRetryElement.classList.add('message-retry-container')
-
-        containerRetryElement.appendChild(messageElement)
-        containerRetryElement.appendChild(buttonRetryElement)
-
-        return containerRetryElement
-    }
 
     return messageElement
 }
@@ -144,24 +111,18 @@ async function addMessageElementAndSendRequestToAPI(message) {
     insertMessageBeforeLLMLoaddingElement(messageElement)
 
     const response = await sendMessageToAPI(message)
-    
-    let statusCode = 0, isError = false, isRetry = false
-    let statusAllowedRetry = ['JSON_LLM_RESPONSE_ERROR', 'LLM_TIMEOUT_ERROR', 'LLM_SERVICE_UNAVAILABLE']
+    let statusCode = 0, isError = false
 
 
-    if (response.status != 200) {
-        isRetry = statusAllowedRetry.includes(response.code_str)
+    if (response.status != 200)
         isError = true
-    }
     
     let llmMessageElement = createMessageElement({ 
         message: response.message, 
         isError,
-        isRetry,
     })
 
     insertMessageBeforeLLMLoaddingElement(llmMessageElement)
-
     toggleLLMResponseAnimation()
 }
 
