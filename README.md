@@ -73,6 +73,10 @@ o custo de utilização do modelo.
 quantidade de dados transmitidos pela rede, podendo elevar o tempo de 
 resposta do sistema.
 
+3. **Contexto:** A LLM em alguns caso classica as messagem como sendo mais de um 
+pedido. O que faz o dashboard ter pedidos duplicados. No caso da LLM do Gemini essa falha 
+aconteceu poucas vezes, contudo para a LLM da Devel esse problema foi mais evidente.
+
 ## Instalação
 
 O projeto conta com uma aplicação de linha de comandos e uma interface web.
